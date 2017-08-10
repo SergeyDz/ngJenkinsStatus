@@ -2,6 +2,7 @@ export class Build {
   id: number;
   job: string;
   jobid: number;
-  repository: string;
+  repositoryname: string;
+  repositoryurl: string;
   status: string;
 }

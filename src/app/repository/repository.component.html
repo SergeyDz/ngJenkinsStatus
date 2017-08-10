@@ -1,0 +1,21 @@
+<table class="table table-bordered">
+  <thead>
+    <tr class="active">
+      <th>Repository Name</th>
+      <th class="col-md-1">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let repository of repositories" [ngClass]="{'success': repository.status=='SUCCESS', 'danger': repository.status=='FAILURE'}">
+      <td>{{repository.name}}</td>
+      <td>
+        <div *ngIf="repository.status==='SUCCESS'">
+          <img src="https://status.aws.amazon.com/images/status0.gif" />
+        </div>
+        <div *ngIf="repository.status==='FAILURE'">
+          <img src="https://status.aws.amazon.com/images/status3.gif" />
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

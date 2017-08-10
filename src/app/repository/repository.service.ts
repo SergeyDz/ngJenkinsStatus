@@ -2,18 +2,17 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
-import { Build } from './build';
-
+import { Repository } from './repository';
 
 @Injectable()
-export class BuildService {
-  private heroesUrl = 'http://sonar.paas.sbtech.com:31310/builds';  // URL to web api
+export class RepositoryService {
+  private url = 'http://sonar.paas.sbtech.com:31310/repositories';  // URL to web api
   constructor(private http: Http) { }
 
-  getBuilds(): Promise<Build[]> {
-    return this.http.get(this.heroesUrl)
+  getRepositories(): Promise<Repository[]> {
+    return this.http.get(this.url)
       .toPromise()
-      .then(response => response.json() as Build[])
+      .then(response => response.json() as Repository[])
       .catch(this.handleError);
   }
 

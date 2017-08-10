@@ -1,30 +1,25 @@
-<div class="container">
-  <div class="breadcrumb">
-    <h4>Jenkins Jobs Status</h4>
-  </div>
-  <div class="panel panel-primary">
-    <div class="panel-heading">Builds</div>
-    <div class="panel-body">
-      <table class="table table-bordered">
-        <thead>
-          <tr>
-            <th class="col-md-2">Date Time</th>
-            <th>Job Name</th>
-            <th class="col-md-1">Job #</th>
-            <th>Repository</th>
-            <th class="col-md-1">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let build of builds"> 
-            <td>{{build.createdon | date: 'dd/MM/yyyy HH:MM'}}</td>
-            <td>{{build.job}}</td>
-            <td>{{build.jobid}}</td>
-            <td>{{build.repository}}</td>
-            <td>{{build.status}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
+<table class="table table-bordered">
+  <thead>
+    <tr class="active">
+      <th></th>
+      <th class="col-md-2">Date Time</th>
+      <th class="col-md-2">Job </th>
+      <th>Repository</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let build of builds" [ngClass]="{'success': build.status=='SUCCESS', 'danger': build.status=='FAILURE'}">
+      <td>
+        <div *ngIf="build.status==='SUCCESS'">
+          <img src="https://status.aws.amazon.com/images/status0.gif" />
+        </div>
+        <div *ngIf="build.status==='FAILURE'">
+          <img src="https://status.aws.amazon.com/images/status3.gif" />
+        </div>
+      </td>
+      <td>{{build.createdon | date: 'dd/MM/yyyy HH:MM'}}</td>
+      <td>{{build.job}} #{{build.jobid}}</td>
+      <td>{{build.repositoryname}}</td>
+    </tr>
+  </tbody>
+</table>
