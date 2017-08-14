@@ -17,7 +17,7 @@
           <img src="https://status.aws.amazon.com/images/status3.gif" />
         </div>
       </td>
-      <td>{{build.createdon | date: 'dd/MM/yyyy HH:MM'}}</td>
+      <td>{{ fixTimezoneToLocal(build.createdon) | date: 'dd/MM/yyyy HH:mm'}}</td>
       <td>{{build.job}} #{{build.jobid}}</td>
       <td>{{build.repositoryname}}</td>
     </tr>

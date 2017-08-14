@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { Repository } from './repository';
 import { RepositoryService } from './repository.service';
+import { Observable } from "rxjs";
+import { IntervalObservable } from "rxjs/observable/IntervalObservable";
 
 @Component({
   selector: 'app-repositories',
@@ -21,8 +23,18 @@ export class RepositoryComponent implements OnInit {
       .then(results => this.repositories = results);
   }
 
+  fixTimezoneToLocal(source): string {
+    return source.endsWith('Z') ? source.replace('Z', '') : source;
+  }
+
   ngOnInit() {
     this.getRepositories();
+
+    // get our data every subsequent 10 seconds
+    IntervalObservable.create(10000)
+      .subscribe(() => {
+        this.getRepositories();
+      });
   }
 
 }
