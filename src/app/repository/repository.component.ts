@@ -23,10 +23,6 @@ export class RepositoryComponent implements OnInit {
       .then(results => this.repositories = results);
   }
 
-  fixTimezoneToLocal(source): string {
-    return source.endsWith('Z') ? source.replace('Z', '') : source;
-  }
-
   ngOnInit() {
     this.getRepositories();
 

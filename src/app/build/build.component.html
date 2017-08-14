@@ -5,6 +5,7 @@
       <th class="col-md-2">Date Time</th>
       <th class="col-md-2">Job </th>
       <th>Repository</th>
+      <th>Branch</th>
     </tr>
   </thead>
   <tbody>
@@ -18,8 +19,22 @@
         </div>
       </td>
       <td>{{ fixTimezoneToLocal(build.createdon) | date: 'dd/MM/yyyy HH:mm'}}</td>
-      <td>{{build.job}} #{{build.jobid}}</td>
+      <td>
+        <!-- Split button -->
+        <div class="btn-group">
+          <button type="button" class="btn btn-default btn-sm">{{build.job}} #{{build.jobid}}</button>
+          <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="caret"></span>
+            <span class="sr-only">Action</span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="{{ getJobConsoleUrl(build) }}">View Console Output</a></li>
+            <li><a href="{{ getJobRebuildUrl(build) }}">Rebuild</a></li>
+          </ul>
+        </div>
+      </td>
       <td>{{build.repositoryname}}</td>
+      <td>{{build.branchname}}</td>
     </tr>
   </tbody>
 </table>

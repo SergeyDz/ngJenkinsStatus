@@ -13,6 +13,7 @@ import { IntervalObservable } from "rxjs/observable/IntervalObservable";
 
 export class BuildComponent implements OnInit {
   builds: Build[] = [];
+  jenkinsUrl: string = "http://jenkins.paas.sbtech.com:8080/view/PaaS/job/";
 
   constructor(private buildService: BuildService) {
   }
@@ -25,6 +26,18 @@ export class BuildComponent implements OnInit {
 
   fixTimezoneToLocal(source): string {
     return source.endsWith('Z') ? source.replace('Z', '') : source;
+  }
+
+  getJobUrl(build): string {
+    return this.jenkinsUrl + build.job + "/" + build.jobid;
+  }
+
+  getJobConsoleUrl(build): string {
+    return this.getJobUrl(build) + "/console";
+  }
+
+  getJobRebuildUrl(build): string {
+    return this.getJobUrl(build) + "/rebuild/parameterized";
   }
 
   ngOnInit() {
