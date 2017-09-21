@@ -14,14 +14,24 @@ import { IntervalObservable } from "rxjs/observable/IntervalObservable";
 export class BuildComponent implements OnInit {
   builds: Build[] = [];
   jenkinsUrl: string = "http://jenkins.paas.sbtech.com:8080/view/PaaS/job/";
+  soundUrl: string = "/assets/audio/ToadLoad.wav";
+  lastLoadedId: number = 0;
+  pageSize: number = 50;
 
   constructor(private buildService: BuildService) {
   }
 
   getBuilds(): void {
     this.buildService
-      .getBuilds()
-      .then(results => this.builds = results);
+      .getBuilds(this.pageSize)
+      .then(results => {
+        if(results.filter(item => item.id > this.lastLoadedId && item.status === 'FAILURE').length > 0)
+        {
+          this.playSound();
+          this.lastLoadedId = results[0].id;
+        }
+        this.builds = results;
+      });
   }
 
   fixTimezoneToLocal(source): string {
@@ -40,6 +50,11 @@ export class BuildComponent implements OnInit {
     return this.getJobUrl(build) + "/rebuild/parameterized";
   }
 
+  playSound() {
+      var audio = new Audio(this.soundUrl);
+      audio.play();
+  }
+
   ngOnInit() {
     this.getBuilds();
 
@@ -50,9 +65,14 @@ export class BuildComponent implements OnInit {
       });
   }
 
-  toUTCDate(date){
-    var _utc = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),  date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+  toUTCDate(date) {
+    var _utc = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
     return _utc;
   };
+
+  setPageSize(size) {
+    this.pageSize = size;
+    this.getBuilds();
+  }
 
 }

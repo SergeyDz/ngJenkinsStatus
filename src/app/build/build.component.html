@@ -22,14 +22,16 @@
       <td>
         <!-- Split button -->
         <div class="btn-group">
-          <button type="button" class="btn btn-default btn-sm">{{build.job}} #{{build.jobid}}</button>
+          <button type="button" class="btn btn-default btn-sm build-button-size">
+            {{build.job}} #{{build.jobid}}
+          </button>
           <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="caret"></span>
             <span class="sr-only">Action</span>
           </button>
           <ul class="dropdown-menu">
-            <li><a href="{{ getJobConsoleUrl(build) }}">View Console Output</a></li>
-            <li><a href="{{ getJobRebuildUrl(build) }}">Rebuild</a></li>
+            <li><a href="{{ getJobConsoleUrl(build) }}" target="_blank">View Console Output</a></li>
+            <li><a href="{{ getJobRebuildUrl(build) }}" target="_blank">Rebuild</a></li>
           </ul>
         </div>
       </td>
@@ -38,3 +40,20 @@
     </tr>
   </tbody>
 </table>
+
+<nav aria-label="Page navigation" class="pull-right">
+  <ul class="pagination justify-content-center">
+    <li class="page-item" [class.active]="pageSize == 25">
+        <a href="javascript:;" (click)="setPageSize(25)">25</a>
+    </li>
+    <li class="page-item" [class.active]="pageSize == 50">
+        <a href="javascript:;" (click)="setPageSize(50)">50</a>
+    </li>
+    <li class="page-item" [class.active]="pageSize == 200">
+        <a href="javascript:;" (click)="setPageSize(200)">200</a>
+    </li>
+    <li class="page-item" [class.active]="pageSize == 500">
+        <a href="javascript:;" (click)="setPageSize(500)">500</a>
+    </li>
+  </ul>
+</nav>

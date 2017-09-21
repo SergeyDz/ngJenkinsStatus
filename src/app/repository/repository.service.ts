@@ -6,7 +6,7 @@ import { Repository } from './repository';
 
 @Injectable()
 export class RepositoryService {
-  private url = 'http://sonar.paas.sbtech.com:31310/repositories';  // URL to web api
+  private url = 'http://sonar.paas.sbtech.com/service/jenkinsstatusapi/repositories';  // URL to web api
   constructor(private http: Http) { }
 
   getRepositories(): Promise<Repository[]> {
