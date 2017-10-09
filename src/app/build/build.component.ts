@@ -14,7 +14,7 @@ import { IntervalObservable } from "rxjs/observable/IntervalObservable";
 export class BuildComponent implements OnInit {
   builds: Build[] = [];
   jenkinsUrl: string = "http://jenkins.paas.sbtech.com:8080/view/PaaS/job/";
-  soundUrl: string = "/assets/audio/ToadLoad.wav";
+  soundUrl: string// = "/assets/audio/ToadLoad.wav";
   lastLoadedId: number = 0;
   pageSize: number = 50;
 

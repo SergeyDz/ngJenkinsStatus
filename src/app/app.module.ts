@@ -11,6 +11,7 @@ import { RepositoryComponent } from './repository/repository.component';
 import { RepositoryService }  from './repository/repository.service';
 import { DeployComponent } from './deploy/deploy.component';
 import { CicddashboardComponent } from './cicddashboard/cicddashboard.component';
+import { GcInstComponent } from './gc-inst/gc-inst.component';
 
 
 const appRoutes: Routes = [
@@ -20,6 +21,7 @@ const appRoutes: Routes = [
     redirectTo: '/build',
     pathMatch: 'full'
   },
+  { path: 'instances', component: GcInstComponent },
   { path: '**', component: AppComponent }
 ];
 
@@ -29,7 +31,8 @@ const appRoutes: Routes = [
     BuildComponent,
     RepositoryComponent,
     DeployComponent,
-    CicddashboardComponent
+    CicddashboardComponent,
+    GcInstComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,72 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div bp-layout="row">
+	<div *ngFor="let p of instances" bp-layout="col 6 4@md 2@lg" ng-cloak>
+		<table class="card--media">
+			<tr>
+				<td align="left" [routerLink]="['./', p.NAME]" style="width:100%" class="card--header">
+						<i class="fa fa-cloud " style="font-size:100%;color:Black;"></i><span> #{{p.NAME}}</span>
+				</td>
+				<td align="right">
+					<div *ngIf="p.STATUS==='RUNNING'">
+						<i class="fa fa-rocket fly" style="font-size:150%;color:YellowGreen;"></i>
+					</div>
+					<div *ngIf="p.STATUS==='TERMINATED'">
+						<i class="fa fa-thumbs-down down" style="font-size:150%;color:Tomato;"></i>
+					</div>
+					<div *ngIf="p.STATUS==='STOPPING'">
+						<i class="fa fa-wrench shake" style="font-size:150%;color:Orange;"></i>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<hr>
+					<strong>internal:</strong> {{p.INTERNAL_IP}}<br>
+					<strong>external:</strong> {{p.EXTERNAL_IP}}<br>
+					<strong>zone:</strong> {{p.ZONE}}<br>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<!--
+<table class="table table-bordered" >
+  <thead>
+    <tr class="active">
+      <th width="5%">ID</th>
+      <th width="15%">NAME</th>
+      <th width="15%">ZONE</th>
+      <th width="15%">MACHINE_TYPE</th>
+      <th width="20%">INTERNAL_IP</th>
+      <th width="20%">EXTERNAL_IP</th>
+      <th width="10%">STATUS</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let inst of instances">
+      <td>{{inst.ID}}</td>
+      <td>{{inst.NAME}}</td>
+      <td>{{inst.ZONE}}</td>
+      <td>{{inst.MACHINE_TYPE}}</td>
+      <td>{{inst.INTERNAL_IP}}</td>
+      <td>{{inst.EXTERNAL_IP}}</td>
+      <td>
+        <div *ngIf="inst.STATUS==='RUNNING'">
+          <img height="42" width="42" align="right" src="https://cdn3.iconfinder.com/data/icons/popular-memes/48/JD-25-256.png" />
+          <p style="color:MediumSeaGreen"><b>{{inst.STATUS}}</b></p>
+        </div>
+        <div *ngIf="inst.STATUS==='TERMINATED'">
+          <img height="42" width="42" align="right" src="https://cdn3.iconfinder.com/data/icons/popular-memes/48/JD-22-512.png" />
+          <p style="color:Tomato"><b>{{inst.STATUS}}</b></p>
+        </div>
+        <div *ngIf="inst.STATUS==='STOPPING'">
+          <img height="42" width="42" align="right" src="https://cdn3.iconfinder.com/data/icons/popular-memes/48/JD-14-128.png" />
+          <p style="color:Orange"><b>{{inst.STATUS}}</b></p>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+-->
