@@ -11,8 +11,10 @@ import { RepositoryComponent } from './repository/repository.component';
 import { RepositoryService }  from './repository/repository.service';
 import { DeployComponent } from './deploy/deploy.component';
 import { CicddashboardComponent } from './cicddashboard/cicddashboard.component';
-import { GcInstComponent } from './gc-inst/gc-inst.component';
 
+import { InstancesComponent } from './instances/instances_list.component';
+import { InstancesDataService } from './instances/instances-data.service';
+import { FormsModule } from '@angular/forms';
 
 const appRoutes: Routes = [
   { path: 'build', component: CicddashboardComponent },
@@ -21,7 +23,7 @@ const appRoutes: Routes = [
     redirectTo: '/build',
     pathMatch: 'full'
   },
-  { path: 'instances', component: GcInstComponent },
+  { path: 'instances', component: InstancesComponent},
   { path: '**', component: AppComponent }
 ];
 
@@ -32,14 +34,15 @@ const appRoutes: Routes = [
     RepositoryComponent,
     DeployComponent,
     CicddashboardComponent,
-    GcInstComponent
+    InstancesComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    FormsModule
   ],
-  providers: [BuildService, RepositoryService, { provide: APP_BASE_HREF, useValue : '/' }],
+  providers: [BuildService, { provide: APP_BASE_HREF, useValue : '/' }, InstancesDataService, RepositoryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
