@@ -18,7 +18,7 @@ const appRoutes: Routes = [
   { path: 'build', component: CicddashboardComponent },
   { path: 'deploy', component: DeployComponent },
   { path: '',
-    redirectTo: '/build',
+    redirectTo: '/instances',
     pathMatch: 'full'
   },
   { path: 'instances', component: GcInstComponent },
