@@ -10,7 +10,7 @@ export class InstancesDataService {
   instances: Observable<GCINST[]>;
 
   constructor(private http: Http) {
-    this.instances = this.http.get('http://localhost:8080/instances')
+    this.instances = this.http.get('http://sonar.paas.sbtech.com/service/popstatusapi/instances')
       .map(res => res.json());
   }
 
