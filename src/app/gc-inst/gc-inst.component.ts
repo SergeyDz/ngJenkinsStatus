@@ -11,7 +11,7 @@ import { IntervalObservable } from "rxjs/observable/IntervalObservable";
 })
 
 export class GcInstComponent implements OnInit {
-  url: string = 'http://127.0.0.1:8080/instances';
+  url: string = 'http://sonar.paas.sbtech.com/service/popstatusapi/instances';
   instances: GCINST[];
 
   constructor(private http: Http) {
