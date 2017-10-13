@@ -12,9 +12,9 @@ import { IntervalObservable } from "rxjs/observable/IntervalObservable";
 })
 
 export class BuildComponent implements OnInit {
-  builds: Build[] = [];
-  jenkinsUrl: string = "http://jenkins.paas.sbtech.com:8080/view/PaaS/job/";
-  soundUrl: string// = "/assets/audio/ToadLoad.wav";
+  builds: Build[] = []; 
+  jenkinsUrl: string = "http://jenkins.paas.sbtech.com:8080/job/Common/job/";
+  soundUrl: string = "/assets/audio/ToadLoad.wav";
   lastLoadedId: number = 0;
   pageSize: number = 50;
 
@@ -51,8 +51,8 @@ export class BuildComponent implements OnInit {
   }
 
   playSound() {
-      var audio = new Audio(this.soundUrl);
-      audio.play();
+    //  var audio = new Audio(this.soundUrl);
+    //  audio.play();
   }
 
   ngOnInit() {

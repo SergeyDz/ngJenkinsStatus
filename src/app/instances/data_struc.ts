@@ -7,3 +7,8 @@ export interface GCINST {
   EXTERNAL_IP: string;
   STATUS: string;
 }
+
+export interface Service {
+  NAME: string;
+  PORT: number;
+}

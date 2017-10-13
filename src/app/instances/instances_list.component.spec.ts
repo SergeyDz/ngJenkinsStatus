@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GcInstComponent } from './gc-inst.component';
+import { InstancesComponent } from './instances_list.component';
 
-describe('GcInstComponent', () => {
-  let component: GcInstComponent;
-  let fixture: ComponentFixture<GcInstComponent>;
+describe('InstancesComponent', () => {
+  let component: InstancesComponent;
+  let fixture: ComponentFixture<InstancesComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GcInstComponent ]
+      declarations: [ InstancesComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GcInstComponent);
+    fixture = TestBed.createComponent(InstancesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
