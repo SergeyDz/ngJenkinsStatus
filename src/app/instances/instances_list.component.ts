@@ -18,22 +18,14 @@ import { bm_s, kafka_s, lineserver_s, microservices_s, mongo_s, rabbitmq_s, sql_
 })
 
 export class InstancesComponent implements OnInit {
-  instances: Observable<GCINST[]>;
-  instlist: Observable<GCINST[]>;
+  instances: GCINST[] = [];
+  instlist: GCINST[] = [];
   selectedMovie: any = {};
   services: Service[];
+  selectedEnvironment: string;
 
   constructor(
     private InstancesService: InstancesService) { }
-
-  ngOnInit(): void {
-    this.InstancesService.setTitle();
-    this.getInst();
-    IntervalObservable.create(10000)
-      .subscribe(() => {
-        this.getInst()
-      });
-  }
 
   SelectMovie(mv: any) {
     this.selectedMovie = mv;
@@ -63,13 +55,12 @@ export class InstancesComponent implements OnInit {
   }
 
   getInst(): void {
-    //here need to check
-    this.instlist = this.InstancesService.instances.map(data => this.filtr(data));
-    if (sessionStorage.getItem('filter')) {
-      this.InstancesService.search(sessionStorage.getItem('filter'));
-      this.InstancesService.initial();
-    };
-    this.instances = this.InstancesService.instances.map(data => data.sort((a, b) => (a.STATUS === 'STOPPING' || a.STATUS === 'TERMINATED') ? -1 : 1));
+    this.InstancesService
+      .getMachineInstances()
+      .then(results => {
+        this.instlist = this.filtr(results);
+        this.instances = results;
+      });
   }
 
   filtr(arr) {
@@ -78,8 +69,23 @@ export class InstancesComponent implements OnInit {
   }
 
   search(term: string) {
-    this.InstancesService.search(term);
-    sessionStorage.setItem('filter', term);
+    if(this.selectedEnvironment != term)
+    {
+      this.selectedEnvironment = term;
+    } 
+    else
+    {
+      this.selectedEnvironment = null;
+    }
   }
 
+  ngOnInit() {
+    this.getInst();
+
+    // get our data every subsequent 10 seconds
+    IntervalObservable.create(10000)
+      .subscribe(() => {
+        this.getInst();
+      });
+  }
 }

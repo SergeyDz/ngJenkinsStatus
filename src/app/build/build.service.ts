@@ -7,11 +7,11 @@ import { Build } from './build';
 
 @Injectable()
 export class BuildService {
-  private heroesUrl = 'http://sonar.paas.sbtech.com/service/jenkinsstatusapi/builds';  // URL to web api
+  private buildsUrl = 'http://sonar.paas.sbtech.com/service/jenkinsstatusapi/builds';  // URL to web api
   constructor(private http: Http) { }
 
   getBuilds(size): Promise<Build[]> {
-    return this.http.get(this.heroesUrl + "?size=" + size)
+    return this.http.get(this.buildsUrl + "?size=" + size)
       .toPromise()
       .then(response => response.json() as Build[])
       .catch(this.handleError);

@@ -1,11 +1,15 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<div *ngFor="let env of instlist | async" class="btn-group" style="margin-bottom: 15px;">
-	<button (click)="search(env.ID)" type="button" class="btn btn btn-sm" >{{env.ID}}</button>
-</div>
+<nav>
+	<ul class="pagination justify-content-center">
+	  <li *ngFor="let env of instlist | sort" class="page-item" [class.active]="env.ID == selectedEnvironment">
+		  <a href="javascript:;" (click)="search(env.ID)">{{env.ID}}</a>
+	  </li>
+	</ul>
+</nav>
 
 <div bp-layout="row">
-	<div *ngFor="let p of instances | async" bp-layout="col 6 4@md 2@lg">
+	<div *ngFor="let p of instances | instancefilter : selectedEnvironment | sort" bp-layout="col 6 4@md 2@lg">
 		<table class="card--media">
 			<tr>
 				<td align="left" style="width:100%" class="card--header">
@@ -28,7 +32,6 @@
 					<hr>
 					<strong>internal:</strong> {{p.INTERNAL_IP}}<br>
 					<strong>external:</strong> {{p.EXTERNAL_IP}}<br>
-					<strong>zone:</strong> {{p.ZONE}}<br>
 				</td>
 			</tr>
 		</table>
@@ -47,9 +50,7 @@
 				<table width="80%" *ngFor="let ser of services">
 					<tr>
 						<td>
-							<strong style="color:cornflowerblue">{{ser.NAME}}</strong><br>
-							<strong>Internal:</strong> {{selectedMovie.INTERNAL_IP}}:{{ser.PORT}}<br>
-							<strong>External:</strong> {{selectedMovie.EXTERNAL_IP}}:{{ser.PORT}}<br>
+							{{ser.NAME}} <a href="http://{{selectedMovie.INTERNAL_IP}}:{{ser.PORT}}" target="_blank">http://{{selectedMovie.INTERNAL_IP}}:{{ser.PORT}}</a>
 						</td>
 						<td align="right">
 							<i class="fa fa-gears" style="font-size:150%;color:Black;"></i>

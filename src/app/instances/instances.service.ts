@@ -10,21 +10,18 @@ import { InstancesDataService } from './instances-data.service';
 
 @Injectable()
 export class InstancesService {
-  instances: Observable<GCINST[]>;
+
   private searchTerm = new Subject<string>();
 
   constructor(
     private title: Title,
     private InstancesDataService: InstancesDataService,
   ) {
-    this.initial();
+    this.getMachineInstances();
   }
 
-  initial() {
-    this.instances = this.InstancesDataService.instances
-      .switchMap(inst =>
-        this.searchTerm.map(term =>
-          this.filter(inst, term)).startWith(inst));
+  getMachineInstances(): Promise<GCINST[]> {
+    return this.InstancesDataService.getInstances();
   }
 
   setTitle() {
@@ -34,7 +31,9 @@ export class InstancesService {
   search(term: string) {
     if (term == null) {
       this.searchTerm = null;
-    } else { this.searchTerm.next(term + '-'); }
+    } else {
+      this.searchTerm.next(term + '-');
+    }
   }
 
   private filter(inst: GCINST[], value: string) {

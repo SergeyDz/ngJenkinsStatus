@@ -14,6 +14,8 @@ import { CicddashboardComponent } from './cicddashboard/cicddashboard.component'
 
 import { InstancesComponent } from './instances/instances_list.component';
 import { InstancesDataService } from './instances/instances-data.service';
+import { InstanceFilterPipe } from './instances/InstanceFilterPipe';
+import { InstanceSortPipe } from './instances/InstanceOrderByPipe';
 import { FormsModule } from '@angular/forms';
 
 const appRoutes: Routes = [
@@ -34,7 +36,9 @@ const appRoutes: Routes = [
     RepositoryComponent,
     DeployComponent,
     CicddashboardComponent,
-    InstancesComponent
+    InstancesComponent,
+    InstanceFilterPipe,
+    InstanceSortPipe
   ],
   imports: [
     BrowserModule,
