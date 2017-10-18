@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Title } from '@angular/platform-browser';
-import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/startWith';
@@ -14,7 +12,6 @@ export class InstancesService {
   private searchTerm = new Subject<string>();
 
   constructor(
-    private title: Title,
     private InstancesDataService: InstancesDataService,
   ) {
     this.getMachineInstances();
@@ -22,10 +19,6 @@ export class InstancesService {
 
   getMachineInstances(): Promise<GCINST[]> {
     return this.InstancesDataService.getInstances();
-  }
-
-  setTitle() {
-    this.title.setTitle('Google Instances list');
   }
 
   search(term: string) {

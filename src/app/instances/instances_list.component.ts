@@ -3,7 +3,6 @@ import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 import { IntervalObservable } from "rxjs/observable/IntervalObservable";
-import { Observable } from 'rxjs/Observable';
 import { GCINST } from './data_struc';
 import { InstancesService } from './instances.service';
 
@@ -69,12 +68,10 @@ export class InstancesComponent implements OnInit {
   }
 
   search(term: string) {
-    if(this.selectedEnvironment != term)
-    {
+    if (this.selectedEnvironment != term) {
       this.selectedEnvironment = term;
-    } 
-    else
-    {
+    }
+    else {
       this.selectedEnvironment = null;
     }
   }

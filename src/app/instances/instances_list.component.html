@@ -28,10 +28,15 @@
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2">
+				<td align="left">
 					<hr>
 					<strong>internal:</strong> {{p.INTERNAL_IP}}<br>
 					<strong>external:</strong> {{p.EXTERNAL_IP}}<br>
+				</td>
+				<td valign="bottom" align="right">
+				<div *ngIf="p.JENSTAT==='true'">
+					<img src="https://wiki.jenkins-ci.org/download/attachments/2916393/master-jenkins-normal3.svg" title="Pablo is working.." height="64" width="auto">
+				</div>
 				</td>
 			</tr>
 		</table>

@@ -6,6 +6,7 @@ export interface GCINST {
   INTERNAL_IP: string;
   EXTERNAL_IP: string;
   STATUS: string;
+  JENSTAT: string;
 }
 
 export interface Service {

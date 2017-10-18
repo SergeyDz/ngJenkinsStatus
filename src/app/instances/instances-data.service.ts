@@ -2,14 +2,13 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import { GCINST } from './data_struc';
 import { Http } from '@angular/http';
-import { IntervalObservable } from "rxjs/observable/IntervalObservable";
-import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class InstancesDataService {
   instances: Promise<GCINST[]>;
   gcAPIUrl = 'http://sonar.paas.sbtech.com/service/popstatusapi/instances';
-
+ //  gcAPIUrl = 'http://127.0.0.1:8080/instances'
   constructor(private http: Http) {
     
   }
