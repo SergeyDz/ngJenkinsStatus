@@ -2,9 +2,9 @@
 
 <nav>
 	<ul class="pagination justify-content-center">
-	  <li *ngFor="let env of instlist | sort" class="page-item" [class.active]="env.ID == selectedEnvironment">
-		  <a href="javascript:;" (click)="search(env.ID)">{{env.ID}}</a>
-	  </li>
+		<li *ngFor="let env of instlist | sort" class="page-item" [class.active]="env.ID == selectedEnvironment">
+			<a href="javascript:;" (click)="search(env.ID)">{{env.ID}}</a>
+		</li>
 	</ul>
 </nav>
 
@@ -13,7 +13,9 @@
 		<table class="card--media">
 			<tr>
 				<td align="left" style="width:100%" class="card--header">
-					<i class="fa fa-cloud" data-toggle="modal" data-target="#myModal" (click)="SelectMovie(p)" style="font-size:100%;color:Black;"><span>  #{{p.NAME}}</span></i>
+					<i class="fa fa-cloud" data-toggle="modal" data-target="#myModal" (click)="SelectMovie(p)" style="font-size:100%;color:Black;">
+						<span> #{{p.NAME}}</span>
+					</i>
 				</td>
 				<td align="right">
 					<div *ngIf="p.STATUS==='RUNNING'">
@@ -30,45 +32,58 @@
 			<tr>
 				<td align="left">
 					<hr>
-					<strong>internal:</strong> {{p.INTERNAL_IP}}<br>
-					<strong>external:</strong> {{p.EXTERNAL_IP}}<br>
+					<strong>internal:</strong> {{p.INTERNAL_IP}}
+					<br>
+					<strong>external:</strong> {{p.EXTERNAL_IP}}
+					<br>
 				</td>
 				<td valign="bottom" align="right">
-				<div *ngIf="p.JENSTAT==='true'">
-					<img src="https://wiki.jenkins-ci.org/download/attachments/2916393/master-jenkins-normal3.svg" title="Pablo is working.." height="64" width="auto">
-				</div>
+					<div *ngIf="p.JENSTAT === 'true'">
+						<img src="https://wiki.jenkins-ci.org/download/attachments/2916393/master-jenkins-normal3.svg" title="Pablo is working.."
+						 height="64" width="auto">
+					</div>
 				</td>
 			</tr>
 		</table>
 	</div>
 </div>
 
-
-<div id="myModal" class="modal fade" role="dialog">
+<div id="myModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title">Service list</h4>
+				<button type="button" class="close" data-dismiss="modal" (click)="ClearMovieList()">&times;</button>
+				<h4 class="modal-title">Service list: {{selectedMovie.NAME}}</h4>
 			</div>
 			<div class="modal-body">
 				<table width="80%" *ngFor="let ser of services">
 					<tr>
 						<td>
-							{{ser.NAME}} <a href="http://{{selectedMovie.INTERNAL_IP}}:{{ser.PORT}}" target="_blank">http://{{selectedMovie.INTERNAL_IP}}:{{ser.PORT}}</a>
+							{{ser.NAME}}
+							<a href="{{ser.TYPE}}://{{selectedMovie.EXTERNAL_IP}}:{{ser.PORT}}" target="_blank">{{ser.TYPE}}://{{selectedMovie.EXTERNAL_IP}}:{{ser.PORT}}</a>
 						</td>
 						<td align="right">
-							<i class="fa fa-gears" style="font-size:150%;color:Black;"></i>
+							<div *ngIf="ser.PING == null">
+								<i class="fa fa-gear fa-spin" style="font-size:24px"></i>
+							</div>
+							<div *ngIf="ser.PING > 0 && ser.PING < 100">
+								<i class="fa fa-thermometer-empty" style="font-size:170%;color:Green;"></i> {{ser.PING}}ms
+							</div>
+							<div *ngIf="ser.PING > 100">
+								<i class="fa fa-thermometer-empty" style="font-size:170%;color:Orange;"></i> {{ser.PING}}ms
+							</div>
+							<div *ngIf="ser.PING == 0">
+								<i class="	fa fa-thermometer-full" style="font-size:170%;color:Tomato;"></i>
+							</div>
 						</td>
 					</tr>
 					<hr>
 				</table>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal" (click)="ClearMovieList()">Close</button>
 			</div>
 		</div>
-
 	</div>
 </div>
 <router-outlet></router-outlet>

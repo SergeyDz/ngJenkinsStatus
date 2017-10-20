@@ -10,7 +10,8 @@ import { InstancesDataService } from './instances-data.service';
 export class InstancesService {
 
   private searchTerm = new Subject<string>();
-
+  gcAPIUrl = this.InstancesDataService.gcAPIUrl;
+  
   constructor(
     private InstancesDataService: InstancesDataService,
   ) {

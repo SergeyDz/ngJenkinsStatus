@@ -12,4 +12,7 @@ export interface GCINST {
 export interface Service {
   NAME: string;
   PORT: number;
+  TYPE: string;
+  PING: number;
+  TIMEOUT: number;
 }

@@ -9,6 +9,8 @@ import { InstancesService } from './instances.service';
 import { Service } from './data_struc';
 import { bm_s, kafka_s, lineserver_s, microservices_s, mongo_s, rabbitmq_s, sql_s } from './data';
 
+import { Observable, Subscription } from 'rxjs/Rx';
+
 @Component({
   selector: 'app_instances_list',
   templateUrl: './instances_list.component.html',
@@ -22,9 +24,11 @@ export class InstancesComponent implements OnInit {
   selectedMovie: any = {};
   services: Service[];
   selectedEnvironment: string;
+  private timer;
 
   constructor(
-    private InstancesService: InstancesService) { }
+    private InstancesService: InstancesService,
+    private http: Http) { }
 
   SelectMovie(mv: any) {
     this.selectedMovie = mv;
@@ -51,6 +55,17 @@ export class InstancesComponent implements OnInit {
         this.services = sql_s;
         break;
     }
+    this.pingme(mv.EXTERNAL_IP)
+    /// create update interval
+    this.timer = setInterval(_ => {
+      this.pingme(mv.EXTERNAL_IP)
+    }, 20000);
+  }
+
+  ClearMovieList() {
+    clearInterval(this.timer);
+    this.services.map(service => service.PING = null);
+    this.services = [];
   }
 
   getInst(): void {
@@ -78,11 +93,19 @@ export class InstancesComponent implements OnInit {
 
   ngOnInit() {
     this.getInst();
-
     // get our data every subsequent 10 seconds
-    IntervalObservable.create(10000)
+    IntervalObservable.create(15000)
       .subscribe(() => {
         this.getInst();
       });
   }
+
+  pingme(url) {
+    this.services.map(service =>
+      this.http.get(this.InstancesService.gcAPIUrl + "/" + url + "/" + service.PORT + "/" + service.TYPE + "/" + service.TIMEOUT + "")
+        .map(res => res.json())
+        .subscribe(data => { service.PING = data })
+    )
+  }
+
 }
