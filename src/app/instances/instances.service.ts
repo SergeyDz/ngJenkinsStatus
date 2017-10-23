@@ -9,18 +9,18 @@ import { InstancesDataService } from './instances-data.service';
 @Injectable()
 export class InstancesService {
 
-  private searchTerm = new Subject<string>();
-  gcAPIUrl = this.InstancesDataService.gcAPIUrl;
+  // private searchTerm = new Subject<string>();
+  // gcAPIUrl = this.InstancesDataService.gcAPIUrl;
 
   constructor(
     private InstancesDataService: InstancesDataService,
   ) {
-    this.getMachineInstances();
+    // this.getMachineInstances();
   }
 
-  getMachineInstances(): Promise<GCINST[]> {
-    return this.InstancesDataService.getInstances();
-  }
+  // getMachineInstances(): Promise<GCINST[]> {
+  //   return this.InstancesDataService.getInstances();
+  // }
 
   // search(term: string) {
   //   if (term == null) {

@@ -4,7 +4,7 @@ import 'rxjs/add/operator/map';
 
 import { IntervalObservable } from "rxjs/observable/IntervalObservable";
 import { GCINST } from './data_struc';
-import { InstancesService } from './instances.service';
+import { InstancesDataService } from './instances-data.service';
 
 import { Service } from './data_struc';
 import { bm_s, kafka_s, lineserver_s, microservices_s, mongo_s, rabbitmq_s, sql_s } from './data';
@@ -15,7 +15,7 @@ import { Observable, Subscription } from 'rxjs/Rx';
   selector: 'app_instances_list',
   templateUrl: './instances_list.component.html',
   styleUrls: ['./instances_list.component.scss'],
-  providers: [InstancesService]
+  providers: [InstancesDataService]
 })
 
 export class InstancesComponent implements OnInit {
@@ -27,7 +27,7 @@ export class InstancesComponent implements OnInit {
   private timer;
 
   constructor(
-    private InstancesService: InstancesService,
+    private InstancesDataService: InstancesDataService,
     private http: Http) { }
 
   SelectMovie(mv: any) {
@@ -69,8 +69,8 @@ export class InstancesComponent implements OnInit {
   }
 
   getInst(): void {
-    this.InstancesService
-      .getMachineInstances()
+    this.InstancesDataService
+      .getInstances()
       .then(results => {
         this.instlist = this.filtr(results);
         this.instances = results;
@@ -107,7 +107,7 @@ export class InstancesComponent implements OnInit {
 
   pingme(url) {
     this.services.map(service =>
-      this.http.get(this.InstancesService.gcAPIUrl + "/" + url + "/" + service.PORT + "/" + service.TYPE + "/" + service.TIMEOUT + "")
+      this.http.get(this.InstancesDataService.gcAPIUrl + "/" + url + "/" + service.PORT + "/" + service.TYPE + "/" + service.TIMEOUT + "")
         .map(res => res.json())
         .subscribe(data => { service.PING = data })
     )
