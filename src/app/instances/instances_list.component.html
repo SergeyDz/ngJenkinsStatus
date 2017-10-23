@@ -60,7 +60,7 @@
 					<tr>
 						<td>
 							{{ser.NAME}}
-							<a href="{{ser.TYPE}}://{{selectedMovie.EXTERNAL_IP}}:{{ser.PORT}}" target="_blank">{{ser.TYPE}}://{{selectedMovie.EXTERNAL_IP}}:{{ser.PORT}}</a>
+							<a href="http://{{selectedMovie.EXTERNAL_IP}}:{{ser.PORT}}" target="_blank">http://{{selectedMovie.EXTERNAL_IP}}:{{ser.PORT}}</a>
 						</td>
 						<td align="right">
 							<div *ngIf="ser.PING == null">

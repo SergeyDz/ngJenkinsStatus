@@ -11,7 +11,7 @@ export class InstancesService {
 
   private searchTerm = new Subject<string>();
   gcAPIUrl = this.InstancesDataService.gcAPIUrl;
-  
+
   constructor(
     private InstancesDataService: InstancesDataService,
   ) {
@@ -22,15 +22,15 @@ export class InstancesService {
     return this.InstancesDataService.getInstances();
   }
 
-  search(term: string) {
-    if (term == null) {
-      this.searchTerm = null;
-    } else {
-      this.searchTerm.next(term + '-');
-    }
-  }
+  // search(term: string) {
+  //   if (term == null) {
+  //     this.searchTerm = null;
+  //   } else {
+  //     this.searchTerm.next(term + '-');
+  //   }
+  // }
 
-  private filter(inst: GCINST[], value: string) {
-    return inst.filter(p => value ? p.NAME.toLowerCase().includes(value.toLowerCase()) : inst);
-  }
+  // private filter(inst: GCINST[], value: string) {
+  //   return inst.filter(p => value ? p.NAME.toLowerCase().includes(value.toLowerCase()) : inst);
+  // }
 }

@@ -85,13 +85,18 @@ export class InstancesComponent implements OnInit {
   search(term: string) {
     if (this.selectedEnvironment != term) {
       this.selectedEnvironment = term;
-    }
-    else {
+      localStorage.setItem('sessionfilter', term);
+    } else {
+      localStorage.clear();
       this.selectedEnvironment = null;
     }
   }
 
   ngOnInit() {
+    var sessionfilter = localStorage.getItem('sessionfilter');
+    if (sessionfilter != null) {
+      this.selectedEnvironment = sessionfilter;
+    }
     this.getInst();
     // get our data every subsequent 10 seconds
     IntervalObservable.create(15000)
