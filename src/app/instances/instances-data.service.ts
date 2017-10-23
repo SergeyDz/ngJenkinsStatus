@@ -8,7 +8,7 @@ import { Subject } from 'rxjs/Subject';
 export class InstancesDataService {
   instances: Promise<GCINST[]>;
   gcAPIUrl = 'http://sonar.paas.sbtech.com/service/popstatusapi/instances';
-  // gcAPIUrl = 'http://127.0.0.1:8080/instances'
+  //gcAPIUrl = 'http://127.0.0.1:8080/instances'
   constructor(private http: Http) {
     
   }

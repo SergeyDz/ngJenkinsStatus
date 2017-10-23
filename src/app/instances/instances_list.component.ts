@@ -31,7 +31,6 @@ export class InstancesComponent implements OnInit {
     private http: Http) { }
 
   SelectMovie(mv: any) {
-    this.selectedMovie = mv;
     switch (mv.NAME.split("-").pop().toLowerCase()) {
       case "bm":
         this.services = bm_s;
@@ -55,17 +54,22 @@ export class InstancesComponent implements OnInit {
         this.services = sql_s;
         break;
     }
-    this.pingme(mv.EXTERNAL_IP)
-    /// create update interval
-    this.timer = setInterval(_ => {
+    if (this.services != null) {
+      this.selectedMovie = mv;
       this.pingme(mv.EXTERNAL_IP)
-    }, 20000);
+      /// create update interval
+      this.timer = setInterval(_ => {
+        this.pingme(mv.EXTERNAL_IP)
+      }, 20000);
+    }
   }
 
   ClearMovieList() {
     clearInterval(this.timer);
-    this.services.map(service => service.PING = null);
-    this.services = [];
+    if (this.services != null) {
+      this.services.map(service => service.PING = null);
+      this.services = null;
+    }
   }
 
   getInst(): void {
