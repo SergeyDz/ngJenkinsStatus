@@ -91,7 +91,7 @@
 						<i *ngIf="p.OS === 'windows'" class="fa fa-windows" style="font-size:20px"></i>
 					</div>
 					<div *ngIf="p.JENBUILD && p.JENBUILD != '' && p.JENBUILD != 'false'">
-						<a href="http://jenkins.paas.sbtech.com:8080/job/Common/job/Create_application_terraform_poc_test/{{p.JENBUILD}}/">
+						<a href="{{p.JENBUILD}}">
 							<img src="./assets/jenkins.svg" height="52" width="auto" title="Jenkins build in progress">
 						</a>
 					</div>
