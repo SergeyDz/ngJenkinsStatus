@@ -3,6 +3,7 @@ export interface GCINST {
   NAME: string;
   ZONE: string;
   MACHINE_TYPE: string;
+  OS: string;
   INTERNAL_IP: string;
   EXTERNAL_IP: string;
   STATUS: string;
