@@ -3,13 +3,11 @@ import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 import { IntervalObservable } from "rxjs/observable/IntervalObservable";
-import { GCINST } from './data_struc';
+import { GCINST, JenkinsJob } from './data_struc';
 import { InstancesDataService } from './instances-data.service';
 
 import { Service } from './data_struc';
 import { bm_s, kafka_s, lineserver_s, microservices_s, mongo_s, rabbitmq_s, sql_s } from './data';
-
-import { Observable, Subscription } from 'rxjs/Rx';
 
 @Component({
   selector: 'app_instances_list',
@@ -21,6 +19,7 @@ import { Observable, Subscription } from 'rxjs/Rx';
 export class InstancesComponent implements OnInit {
   instances: GCINST[] = [];
   instlist: GCINST[] = [];
+  jjoblist: JenkinsJob[] = []
   selectedMovie: any = {};
   services: Service[];
   selectedEnvironment: string;
@@ -31,6 +30,7 @@ export class InstancesComponent implements OnInit {
     private http: Http) { }
 
   SelectMovie(mv: any) {
+    this.selectedMovie = mv;
     switch (mv.NAME.split("-").pop().toLowerCase()) {
       case "bm":
         this.services = bm_s;
@@ -55,7 +55,6 @@ export class InstancesComponent implements OnInit {
         break;
     }
     if (this.services != null) {
-      this.selectedMovie = mv;
       this.pingme(mv.EXTERNAL_IP)
       /// create update interval
       this.timer = setInterval(_ => {
@@ -81,6 +80,14 @@ export class InstancesComponent implements OnInit {
       });
   }
 
+  getJJobs(): void {
+    this.InstancesDataService
+      .getJenkinsJob()
+      .then(results => {
+        this.jjoblist = results;
+      });
+  }
+
   filtr(arr) {
     var f = []
     return arr.filter((n) => f.indexOf(n.ID) == -1 && f.push(n.ID))
@@ -102,11 +109,17 @@ export class InstancesComponent implements OnInit {
       this.selectedEnvironment = sessionfilter;
     }
     this.getInst();
+    this.getJJobs();
     // get our data every subsequent 10 seconds
     IntervalObservable.create(15000)
       .subscribe(() => {
         this.getInst();
       });
+
+    IntervalObservable.create(1200000)
+      .subscribe(() => {
+        this.getJJobs();
+      })
   }
 
   pingme(url) {
