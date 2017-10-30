@@ -1,0 +1,152 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<nav>
+	<ul class="pagination justify-content-center">
+		<li *ngFor="let env of instlist | sort" class="page-item" [class.active]="env.ID == selectedEnvironment">
+			<a href="javascript:;" (click)="search(env.ID)">{{env.ID}}</a>
+		</li>
+	</ul>
+</nav>
+
+
+<div class="col-md-2">
+	<table class="table table-striped" style="height:1000px; overflow-y:auto;display:block;">
+		<div class="list-group">
+			<div *ngIf="jjoblist==''">Loding please wait..</div>
+			<div *ngFor="let jj of jjoblist">
+				<a *ngIf="jj.Result === 'SUCCESS' && !jj.Building" href="{{jj.URL}}" class="list-group-item list-group-item-action list-group-item-success">
+					[<b>{{jj.Timestamp}}</b>] {{jj.DisplayName}}<br>
+					<b>{{jj.UserName}}</b>
+				</a>
+				<a *ngIf="jj.Result === 'FAILURE' && !jj.Building" href="{{jj.URL}}" class="list-group-item list-group-item-action list-group-item-danger">
+					[<b>{{jj.Timestamp}}</b>] {{jj.DisplayName}}<br>
+					<b>{{jj.UserName}}</b>
+				</a>
+				<a *ngIf="jj.Building" href="{{jj.URL}}" class="list-group-item list-group-item-action list-group-item-warning">
+					[<b>{{jj.Timestamp}}</b>] {{jj.DisplayName}}<br>
+					<b>{{jj.UserName}}</b>
+				</a>
+			</div>
+		</div>
+	</table>
+</div>
+<div bp-layout="row">
+	<div *ngFor="let p of instances | instancefilter : selectedEnvironment | sort" bp-layout="col 6 4@md 3@lg">
+		<table class="card--media">
+			<tr>
+				<td align="left" style="width:100%" class="card--header">
+					<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal" (click)="SelectMovie(p)" style="font-size:100%;color:Black;">
+						<div *ngIf="p.NAME.includes('kafka')">
+							<img src="./assets/kafka.svg" height="21" width="auto"> {{p.NAME}}
+						</div>
+						<div *ngIf="p.NAME.includes('rabbitmq')">
+							<img src="./assets/rabbitmq.svg" height="21" width="auto"> {{p.NAME}}
+						</div>
+						<div *ngIf="p.NAME.includes('sql')">
+							<img src="./assets/sql.svg" height="21" width="auto"> {{p.NAME}}
+						</div>
+						<div *ngIf="p.NAME.includes('mongo')">
+							<img src="./assets/mongo.svg" height="21" width="auto"> {{p.NAME}}
+						</div>
+						<div *ngIf="p.NAME.includes('web')">
+							<img src="./assets/web.svg" height="21" width="auto"> {{p.NAME}}
+						</div>
+						<div *ngIf="p.NAME.includes('microservices')">
+							<img src="./assets/microservices.svg" height="21" width="auto"> {{p.NAME}}
+						</div>
+						<div *ngIf="p.NAME.includes('-bm') || p.NAME.includes('-lineserver')">
+							<img src="./assets/iis.svg" height="14" width="auto"> {{p.NAME}}
+						</div>
+						<div *ngIf="!p.NAME.includes('kafka') && !p.NAME.includes('rabbitmq') && !p.NAME.includes('sql') && !p.NAME.includes('mongo') && !p.NAME.includes('web') && !p.NAME.includes('microservices') && !p.NAME.includes('-bm') && !p.NAME.includes('-lineserver')">
+							<i class="fa fa-cloud" style="font-size:120%"></i> {{p.NAME}}
+						</div>
+					</button>
+				</td>
+				<td align="right">
+					<div *ngIf="p.STATUS==='RUNNING' && p.JENBUILD === 'false'">
+						<i class="fa fa-check-square fly" style="font-size:150%;color:YellowGreen;"></i>
+					</div>
+					<div *ngIf="p.STATUS==='TERMINATED' && p.JENBUILD === 'false'">
+						<i class="fa fa-close down" style="font-size:150%;color:Tomato;"></i>
+					</div>
+					<div *ngIf="p.STATUS==='STOPPING' && p.JENBUILD === 'false'">
+						<i class="fa fa-exclamation-triangle shake" style="font-size:150%;color:Orange;"></i>
+					</div>
+					<div *ngIf="p.JENBUILD && p.JENBUILD != '' && p.JENBUILD != 'false'">
+						<img src="./assets/jen_stat.gif" height="24" width="auto">
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td align="left">
+					<hr>
+					<strong>internal:</strong> {{p.INTERNAL_IP}}
+					<br>
+					<strong>external:</strong> {{p.EXTERNAL_IP}}
+					<br>
+				</td>
+				<td valign="bottom" align="right">
+					<div *ngIf="p.JENBUILD && p.JENBUILD != '' && p.JENBUILD != 'false'">
+						<a href="http://jenkins.paas.sbtech.com:8080/job/Common/job/Create_application_terraform_poc_test/{{p.JENBUILD}}/">
+							<img src="./assets/jenkins.svg" height="52" width="auto" title="Jenkins build in progress">
+						</a>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<div id="myModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" (click)="ClearMovieList()">&times;</button>
+				<h4 class="modal-title">Service list: {{selectedMovie.NAME}}</h4>
+			</div>
+			<div class="modal-body" *ngIf="!services">
+				Sorry no info
+			</div>
+			<div class="modal-body" *ngIf="services">
+				<table width="80%">
+					<tr>
+						<th>Name</th>
+						<th align="left">Status</th>
+						<th align="right">Ping</th>
+					</tr>
+					<tr *ngFor="let ser of services" style="border-bottom: 1px solid #eee">
+						<td align="left">
+							{{ser.NAME}}
+							<a href="http://{{selectedMovie.EXTERNAL_IP}}:{{ser.PORT}}" target="_blank">http://{{selectedMovie.EXTERNAL_IP}}:{{ser.PORT}}</a>
+						</td>
+						<td align="left">
+							<div *ngIf="ser.PING == null">
+								<i class="fa fa-gear fa-spin" style="font-size:24px"></i> Wait
+							</div>
+							<div *ngIf="ser.PING > 0 && ser.PING < 100">
+								<i class="fa fa-thermometer-empty" style="font-size:170%;color:Green;"></i> OK
+							</div>
+							<div *ngIf="ser.PING >= 100">
+								<i class="fa fa-thermometer-empty" style="font-size:170%;color:Orange;"></i> Slow
+							</div>
+							<div *ngIf="ser.PING == 0">
+								<i class="fa fa-thermometer-full" style="font-size:170%;color:Tomato;"></i> Fail
+							</div>
+						</td>
+						<td align="right">
+							<div *ngIf="ser.PING != 0 && ser.PING">
+								{{ser.PING}}ms
+							</div>
+						</td>
+						<br>
+						<hr>
+					</tr>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal" (click)="ClearMovieList()">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+<router-outlet></router-outlet>

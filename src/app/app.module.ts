@@ -12,14 +12,20 @@ import { RepositoryService }  from './repository/repository.service';
 import { DeployComponent } from './deploy/deploy.component';
 import { CicddashboardComponent } from './cicddashboard/cicddashboard.component';
 
+import { InstancesComponent } from './instances/instances_list.component';
+import { InstancesDataService } from './instances/instances-data.service';
+import { InstanceFilterPipe } from './instances/InstanceFilterPipe';
+import { InstanceSortPipe } from './instances/InstanceOrderByPipe';
+import { FormsModule } from '@angular/forms';
 
 const appRoutes: Routes = [
   { path: 'build', component: CicddashboardComponent },
   { path: 'deploy', component: DeployComponent },
   { path: '',
-    redirectTo: '/build',
+    redirectTo: '/instances',
     pathMatch: 'full'
   },
+  { path: 'instances', component: InstancesComponent},
   { path: '**', component: AppComponent }
 ];
 
@@ -29,14 +35,18 @@ const appRoutes: Routes = [
     BuildComponent,
     RepositoryComponent,
     DeployComponent,
-    CicddashboardComponent
+    CicddashboardComponent,
+    InstancesComponent,
+    InstanceFilterPipe,
+    InstanceSortPipe
   ],
   imports: [
     BrowserModule,
     HttpModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    FormsModule
   ],
-  providers: [BuildService, RepositoryService, { provide: APP_BASE_HREF, useValue : '/' }],
+  providers: [BuildService, { provide: APP_BASE_HREF, useValue : '/' }, InstancesDataService, RepositoryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
