@@ -8,7 +8,6 @@
 	</ul>
 </nav>
 
-
 <div class="col-md-2">
 	<table class="table table-striped" style="height:1000px; overflow-y:auto;display:block;">
 		<div class="list-group">
@@ -30,6 +29,7 @@
 		</div>
 	</table>
 </div>
+
 <div bp-layout="row">
 	<div *ngFor="let p of instances | instancefilter : selectedEnvironment | sort" bp-layout="col 6 4@md 3@lg">
 		<table class="card--media">
@@ -86,8 +86,12 @@
 					<br>
 				</td>
 				<td valign="bottom" align="right">
+					<div *ngIf="p.JENBUILD && p.JENBUILD != '' && p.JENBUILD === 'false'">
+						<i *ngIf="p.OS === 'ssh'" class="fa fa-linux" style="font-size:21px"></i>
+						<i *ngIf="p.OS === 'windows'" class="fa fa-windows" style="font-size:20px"></i>
+					</div>
 					<div *ngIf="p.JENBUILD && p.JENBUILD != '' && p.JENBUILD != 'false'">
-						<a href="http://jenkins.paas.sbtech.com:8080/job/Common/job/Create_application_terraform_poc_test/{{p.JENBUILD}}/">
+						<a href="{{p.JENBUILD}}">
 							<img src="./assets/jenkins.svg" height="52" width="auto" title="Jenkins build in progress">
 						</a>
 					</div>
